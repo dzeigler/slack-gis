@@ -6,6 +6,12 @@ var probable = require('probable');
 var pickFirstGoodURL = require('pick-first-good-url');
 var callNextTick = require('call-next-tick');
 
+
+//override webhookPort for heroku
+
+config.webhookPort = Number(process.env.PORT || 5000)
+
+
 console.log('The slack-gis webhook server is running.');
 
 function takeRequest(req, res) {

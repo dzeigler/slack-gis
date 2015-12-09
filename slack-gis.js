@@ -15,6 +15,7 @@ config.webhookPort = Number(process.env.PORT || 5000)
 console.log('The slack-gis webhook server is running.');
 
 function takeRequest(req, res) {
+  console.log("request received!");
   var headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST',
@@ -33,6 +34,7 @@ function takeRequest(req, res) {
     });
 
     req.on('end', function doneReadingData() {
+      console.log("POST received. Body: " + body);
       respondToRequestWithBody(req, body, res, headers);
     });
   }
@@ -46,6 +48,7 @@ function respondToRequestWithBody(req, body, res, headers) {
   headers['Content-Type'] = 'text/json';
 
   var params = qs.parse(body);
+  console.log("params.token: " + params.token);
 
   if (config.validWebhookTokens.indexOf(params.token) === -1) {
     res.writeHead(404);

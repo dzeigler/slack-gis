@@ -28,7 +28,7 @@ function takeRequest(req, res) {
   }
   else if (req.method === 'POST') {
     var body = '';
-
+    req.setEncoding('utf8')
     req.on('data', function (data) {
       body += data;
     });
@@ -48,7 +48,7 @@ function respondToRequestWithBody(req, body, res, headers) {
   headers['Content-Type'] = 'text/json';
 
   var params = qs.parse(body);
-  console.log("params.token: " + params.token);
+  console.log("params.token: " + params.token)
 
   if (config.validWebhookTokens.indexOf(params.token) === -1) {
     res.writeHead(404);

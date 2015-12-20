@@ -28,7 +28,6 @@ function takeRequest(req, res) {
   }
   else if (req.method === 'POST') {
     var body = '';
-    req.setEncoding('utf8')
     req.on('data', function (data) {
       body += data;
     });
@@ -61,15 +60,17 @@ function respondToRequestWithBody(req, body, res, headers) {
   }
   else if (typeof params.text === 'string') {
     // Remove internal Slack user id references.
-    var messageText = params.text.replace(/<\@[\w\d]+>/g, '');
-    messageText = messageText.replace(/^gis /, '');
-    
+    console.log("chan text: '" + params.text + "'");
+ 
     var response = {
       username: 'google-image-search',
       channel: params.channel_id
     };
 
-    gis(messageText, respondWithImages);
+    parsed = getSearchTextAndIndex(params.text);    
+
+    console.log("calling with search text: '" + parsed[0] + "'")
+    gis(parsed[0], respondWithImages);
 
     function respondWithImages(error, images) {
       if (error) {
@@ -78,22 +79,32 @@ function respondToRequestWithBody(req, body, res, headers) {
         res.end();
       }
       else {
-        var imageURLs = probable.shuffle(images);
-        var pickOpts = {
-          urls: imageURLs,
-          responseChecker: isImageMIMEType
-        };
-        pickFirstGoodURL(pickOpts, writeImageToResponse);
+        console.log("resopnded with results: '" + images + "'")
+        if (parsed[1] > 0) {
+          writeImageToResponse(null, images[parsed[1]-1])
+        } 
+        else
+        {
+          var imageURLs = probable.shuffle(images);
+          var pickOpts = {
+            urls: imageURLs,
+            responseChecker: isImageMIMEType
+          };
+          pickFirstGoodURL(pickOpts, writeImageToResponse);
+        }
       }
     }
 
+    
     function writeImageToResponse(error, imageURL) {
+      
       if (imageURL) {
         response.text = imageURL;
       }
       else {
         response.text = '¯\\_(ツ)_/¯';
       }
+      console.log("returning text: '" + response.text + "'")
       res.writeHead(200, headers);
       res.end(JSON.stringify(response));
     }
@@ -108,6 +119,36 @@ function isImageMIMEType(response, done) {
   callNextTick(
     done, null, response.headers['content-type'].indexOf('image/') === 0
   );
+}
+
+function getSearchTextAndIndex(messageText) {
+
+  var gisTrigger = /^gis[\d+]*/
+  var imageIndex = 0;
+  match = gisTrigger.exec(messageText);
+  // match is guaranteed to succeed, because trigger is 'gis'
+  matchIndex = /[\d]+/.exec(match) //do we have an index?
+
+  if (matchIndex != null)
+  {
+    // we have a valid index
+    imageIndex = match[0].replace(/^gis/, '')
+      messageText = messageText.replace(gisTrigger, '')
+      messageText = messageText.substr(1)
+    console.log("valid index: " + imageIndex)
+  }
+  else
+  { 
+    // no index!
+    console.log("no index")
+      messageText = messageText.replace(/^gis/, '')
+      if (messageText.charAt(0) === ' ')
+      {
+        messageText = messageText.substr(1);
+      }
+  }
+  
+  return [messageText, imageIndex] ;
 }
 
 http.createServer(takeRequest).listen(config.webhookPort);

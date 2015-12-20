@@ -33,20 +33,28 @@ post_data[1] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : '!img2 latte art', // test img2
-      'trigger_word': '!img2',
+      'text' : 'gis1 star wars', 
+      'trigger_word': 'gis1',
       'channel_name': 'testing',
-      'token': 'H8zroPK4aOADiF46YPzPCS48'
+      'token': 'H8zroPK4aOADiF46YPzPCS48',
+      'team_id': 'T02A3F3HL',
+      'team_domain': 'poundc',
+      'service_id' : '9547183671',
+      'channel_id' : 'C02A97T6Z'
   });
 
 post_data[2] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : '!img4 zach morris', // test img2
-      'trigger_word': '!img4',
+      'text' : 'gis2 star wars', 
+      'trigger_word': 'gis1',
       'channel_name': 'testing',
-      'token': 'H8zroPK4aOADiF46YPzPCS48'
+      'token': 'H8zroPK4aOADiF46YPzPCS48',
+      'team_id': 'T02A3F3HL',
+      'team_domain': 'poundc',
+      'service_id' : '9547183671',
+      'channel_id' : 'C02A97T6Z'
   });
 
 var req = http.request(options, function(res) {
@@ -60,9 +68,9 @@ req.on('error', function (e) {
 	console.log('problem with request: ' + e.message)
 })
 
-req.write(post_data[0])
-//req.write(post_data[1])
-//req.write(post_data[2])
-//req.write(post_data[4]) --> will fail due to caps
+//req.write(post_data[0])
 
+//req.write(post_data[1])
+
+req.write(post_data[2])
 req.end()

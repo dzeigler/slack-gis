@@ -69,8 +69,8 @@ function respondToRequestWithBody(req, body, res, headers) {
 
     parsed = getSearchTextAndIndex(params.text);    
 
-    console.log("calling with search text: '" + parsed[0] + "'")
-    gis(parsed[0], respondWithImages);
+    console.log("calling with search text: '" + parsed.text + "'")
+    gis(parsed.text, respondWithImages);
 
     function respondWithImages(error, images) {
       if (error) {
@@ -80,8 +80,9 @@ function respondToRequestWithBody(req, body, res, headers) {
       }
       else {
         console.log("resopnded with results: '" + images + "'")
-        if (parsed[1] > 0) {
-          writeImageToResponse(null, images[parsed[1]-1])
+        if (parsed.index > 0) {
+          //normalize from 1 based cmd
+          writeImageToResponse(null, images[parsed.index-1])
         } 
         else
         {
@@ -148,7 +149,7 @@ function getSearchTextAndIndex(messageText) {
       }
   }
   
-  return [messageText, imageIndex] ;
+  return {text: messageText, index: imageIndex};
 }
 
 http.createServer(takeRequest).listen(config.webhookPort);

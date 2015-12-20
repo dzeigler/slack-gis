@@ -4,26 +4,26 @@ indexResults = [0, 12, 0, 0, 0]
 
 for (i in messageText) {
 	val = getSearchText(messageText[i])
-	if (val[0] === searchText[i])
+	if (val.txt === searchText[i])
 	{
-		console.log("passed: '" + val[0] + "' == '" + searchText[i] +"'")
+		console.log("passed: '" + val.txt + "' == '" + searchText[i] +"'")
 	} 
 	else
 	{
-		console.log("failed: '" + val[0] + "' != '" + searchText[i] + "'")
+		console.log("failed: '" + val.txt + "' != '" + searchText[i] + "'")
 	}
 
-	if (val[1] == indexResults[i]) {
+	if (val.index == indexResults[i]) {
 		console.log("passed")
 	} 	
 	else
 	{
-		console.log("index failed " + val[1])
+		console.log("index failed " + val.index)
 	}
 }
 
 
-function getSearchText(messageText) {
+function getSearchTextAndIndex(messageText) {
 
 	var gisTrigger = /^gis[\d+]*/
 	var imageIndex = 0;
@@ -50,5 +50,5 @@ function getSearchText(messageText) {
     	}
 	}
 	
-	return [messageText, imageIndex] ;
+	return {txt: messageText, index: imageIndex} ;
 }

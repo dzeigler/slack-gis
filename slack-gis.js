@@ -5,6 +5,7 @@ var gis = require('g-i-s');
 var probable = require('probable');
 var pickFirstGoodURL = require('pick-first-good-url');
 var callNextTick = require('call-next-tick');
+var compact = require('lodash.compact');
 
 
 //override webhookPort for heroku
@@ -71,45 +72,52 @@ function respondToRequestWithBody(req, body, res, headers) {
 
     console.log("calling with search text: '" + parsed.text + "'")
     gis(parsed.text, respondWithImages);
+  }
 
-    function respondWithImages(error, images) {
-      if (error) {
-        console.log(error);
-        res.writeHead(200, headers);
-        res.end();
-      }
-      else {
-        console.log("resopnded with results: '" + images + "'")
-        if (parsed.index > 0) {
-          //normalize from 1 based cmd
-          writeImageToResponse(null, images[parsed.index-1])
-        } 
-        else
-        {
-          var imageURLs = probable.shuffle(images);
-          var pickOpts = {
-            urls: imageURLs,
-            responseChecker: isImageMIMEType
-          };
-          pickFirstGoodURL(pickOpts, writeImageToResponse);
+  function respondWithImages(error, images) {
+    if (error) {
+      console.log(error);
+      res.writeHead(200, headers);
+      res.end();
+    }
+    else {
+      var goodImages = compact(images);
+      var imageURLs;
+      console.log("resopnded with results: '" + images + "'")
+      if (parsed.index > 0) {
+        //normalize from 1 based cmd
+        writeImageToResponse(null, images[parsed.index-1])
+      } 
+      else
+      {
+        if (probable.roll(2) === 0) {
+          imageURLs = probable.shuffle(images);
         }
+        else {
+          imageURLs = probable.shuffle(images.slice(0, 10));
+        }
+
+        var pickOpts = {
+          urls: imageURLs,
+          responseChecker: isImageMIMEType
+        };
+        pickFirstGoodURL(pickOpts, writeImageToResponse);
       }
     }
+  }
 
     
-    function writeImageToResponse(error, imageURL) {
+  function writeImageToResponse(error, imageURL) {
       
-      if (imageURL) {
-        response.text = imageURL;
-      }
-      else {
-        response.text = '¯\\_(ツ)_/¯';
-      }
-      console.log("returning text: '" + response.text + "'")
-      res.writeHead(200, headers);
-      response.text = unescape(response.text.replace(/%25/g, "%")) // replace all %25 to %
-      res.end(JSON.stringify(response));
+    if (imageURL) {
+      response.text = imageURL;
+    } else {
+      response.text = '¯\\_(ツ)_/¯';
     }
+    console.log("returning text: '" + response.text + "'")
+    res.writeHead(200, headers);
+    response.text = unescape(response.text.replace(/%25/g, "%")) // replace all %25 to %
+    res.end(JSON.stringify(response));
   }
 }
 

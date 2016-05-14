@@ -68,7 +68,11 @@ function respondToRequestWithBody(req, body, res, headers) {
       channel: params.channel_id
     };
 
-    parsed = getSearchTextAndIndex(params.text);    
+    parsed = getSearchTextAndIndex(params.text);
+
+    // for some reason, g-i-s lib doesn't like the hash symbol, 
+    // so let's replace it here
+    parsed.text = parsed.text.replace("#","%23") 
 
     console.log("calling with search text: '" + parsed.text + "'")
     gis(parsed.text, respondWithImages);

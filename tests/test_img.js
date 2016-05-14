@@ -57,6 +57,19 @@ post_data[2] = querystring.stringify({
       'channel_id' : 'C02A97T6Z'
   });
 
+post_data[3] = querystring.stringify({
+      'user_id' : 'U02A2NEUX',
+      'user_name' : 'boltar',
+      'timestamp': '1402359176.000029', //date.getTime(),
+      'text' : 'gis1 42k Mercedes', 
+      'trigger_word': 'gis1',
+      'channel_name': 'testing',
+      'token': '6kV2U9rAZsO7tVaqYumACrTB',
+      'team_id': 'T02A3F3HL',
+      'team_domain': 'poundc',
+      'service_id' : '9547183671',
+      'channel_id' : 'C02A97T6Z'
+  });
 var req = http.request(options, function(res) {
 	//res.setEncoding('utf8')
 	res.on('data', function (chunk) {
@@ -72,5 +85,5 @@ req.on('error', function (e) {
 
 //req.write(post_data[1])
 
-req.write(post_data[2])
+req.write(post_data[3])
 req.end()

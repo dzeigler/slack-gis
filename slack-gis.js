@@ -137,7 +137,7 @@ function isImageMIMEType(response, done) {
 
 function getSearchTextAndIndex(messageText) {
 
-  var gisTrigger = /^gis[\d+]*/
+  var gisTrigger = /^gis[\d+]*/i
   var imageIndex = 0;
   match = gisTrigger.exec(messageText);
   // match is guaranteed to succeed, because trigger is 'gis'
@@ -146,7 +146,7 @@ function getSearchTextAndIndex(messageText) {
   if (matchIndex != null)
   {
     // we have a valid index
-    imageIndex = match[0].replace(/^gis/, '')
+    imageIndex = match[0].replace(/^gis/i, '')
       messageText = messageText.replace(gisTrigger, '')
       messageText = messageText.substr(1)
     console.log("valid index: " + imageIndex)

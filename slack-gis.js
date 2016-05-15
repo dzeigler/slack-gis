@@ -155,7 +155,7 @@ function getSearchTextAndIndex(messageText) {
   { 
     // no index!
     console.log("no index")
-      messageText = messageText.replace(/^gis/, '')
+      messageText = messageText.replace(/^gis/i, '')
       if (messageText.charAt(0) === ' ')
       {
         messageText = messageText.substr(1);

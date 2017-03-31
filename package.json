@@ -26,6 +26,7 @@
     "lodash.compact": "^3.0.1",
     "pick-first-good-url": "^1.0.0",
     "probable": "^1.7.0",
-    "qs": "^5.1.0"
+    "qs": "^5.1.0",
+    "random-word": "^2.0.0"
   }
 }

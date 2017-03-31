@@ -62,7 +62,7 @@ function respondToRequestWithBody(req, body, res, headers) {
   else if (typeof params.text === 'string') {
     // Remove internal Slack user id references.
     console.log("chan text: '" + params.text + "'");
- 
+
     var response = {
       username: 'google-image-search',
       channel: params.channel_id
@@ -70,9 +70,9 @@ function respondToRequestWithBody(req, body, res, headers) {
 
     parsed = getSearchTextAndIndex(params.text);
 
-    // for some reason, g-i-s lib doesn't like the hash symbol, 
+    // for some reason, g-i-s lib doesn't like the hash symbol,
     // so let's replace it here
-    parsed.text = parsed.text.replace("#","%23") 
+    parsed.text = parsed.text.replace("#","%23")
 
     console.log("calling with search text: '" + parsed.text + "'")
     gis(parsed.text, respondWithImages);
@@ -91,7 +91,7 @@ function respondToRequestWithBody(req, body, res, headers) {
       if (parsed.index > 0) {
         //normalize from 1 based cmd
         writeImageToResponse(null, images[parsed.index-1])
-      } 
+      }
       else
       {
         if (probable.roll(2) === 0) {
@@ -110,9 +110,9 @@ function respondToRequestWithBody(req, body, res, headers) {
     }
   }
 
-    
+
   function writeImageToResponse(error, imageURL) {
-      
+
     if (imageURL) {
       response.text = imageURL;
     } else {
@@ -135,6 +135,34 @@ function isImageMIMEType(response, done) {
   );
 }
 
+
+const randomWord = require('random-word');
+
+function randomInt (low, high) {
+    return Math.floor(Math.random() * (high - low) + low);
+}
+
+function hehehe(str)
+{
+
+
+  var modifiers = [" girls", " -girls", " three girls", " boobs", " butt", " bob sagat"]
+
+  var x = randomInt(0,modifiers.length + 1);
+  console.log(x)
+  var modStr = ''
+  if (x == modifiers.length)
+  {
+    modStr += randomWord();
+  }
+  else {
+    modStr = modifiers[randomInt(0,modifiers.length)];
+  }
+
+  console.log(modStr);
+  return str + modStr;
+}
+
 function getSearchTextAndIndex(messageText) {
 
   var gisTrigger = /^gis[\d+]*/i
@@ -149,10 +177,14 @@ function getSearchTextAndIndex(messageText) {
     imageIndex = match[0].replace(/^gis/i, '')
       messageText = messageText.replace(gisTrigger, '')
       messageText = messageText.substr(1)
+      if (test)
+      {
+        messageText = hehehe(messageText)
+      }
     console.log("valid index: " + imageIndex)
   }
   else
-  { 
+  {
     // no index!
     console.log("no index")
       messageText = messageText.replace(/^gis/i, '')
@@ -161,7 +193,7 @@ function getSearchTextAndIndex(messageText) {
         messageText = messageText.substr(1);
       }
   }
-  
+
   return {text: messageText, index: imageIndex};
 }
 

@@ -7,7 +7,6 @@ var pickFirstGoodURL = require('pick-first-good-url');
 var callNextTick = require('call-next-tick');
 var compact = require('lodash.compact');
 
-var test = 1
 //override webhookPort for heroku
 
 config.webhookPort = Number(process.env.PORT || 5000)
@@ -177,6 +176,7 @@ function getSearchTextAndIndex(messageText) {
     imageIndex = match[0].replace(/^gis/i, '')
       messageText = messageText.replace(gisTrigger, '')
       messageText = messageText.substr(1)
+      var test = 1;
       if (test)
       {
         messageText = hehehe(messageText)

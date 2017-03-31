@@ -152,7 +152,7 @@ function hehehe(str)
   var modStr = ''
   if (x == modifiers.length)
   {
-    modStr += randomWord();
+    modStr += " " + randomWord();
   }
   else {
     modStr = modifiers[randomInt(0,modifiers.length)];

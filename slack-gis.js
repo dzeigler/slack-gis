@@ -176,7 +176,7 @@ function getSearchTextAndIndex(messageText) {
     imageIndex = match[0].replace(/^gis/i, '')
       messageText = messageText.replace(gisTrigger, '')
       messageText = messageText.substr(1)
-      var test = 1;
+      var test = 0;
       if (test)
       {
         messageText = hehehe(messageText)

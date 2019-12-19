@@ -11,8 +11,9 @@ var compact = require('lodash.compact');
 
 config.webhookPort = Number(process.env.PORT || 5000)
 
-
 console.log('The slack-gis webhook server is running.');
+var total_searches = 0;
+var total_failures = 0;
 
 function takeRequest(req, res) {
   console.log("request received!");
@@ -47,6 +48,7 @@ function respondToRequestWithBody(req, body, res, headers) {
   headers['Content-Type'] = 'text/json';
 
   var params = qs.parse(body);
+  var repeat_count = 0;
   console.log("params.token: " + params.token)
 
   if (config.validWebhookTokens.indexOf(params.token) === -1) {
@@ -67,6 +69,11 @@ function respondToRequestWithBody(req, body, res, headers) {
       channel: params.channel_id
     };
 
+    if (params.text == 'gisstats') 
+    {
+      genericResponse(null, 'total searches: ' + total_searches + ", total failures: " + total_failures);
+      return;
+    }
     parsed = getSearchTextAndIndex(params.text);
 
     // for some reason, g-i-s lib doesn't like the hash symbol,
@@ -74,6 +81,7 @@ function respondToRequestWithBody(req, body, res, headers) {
     parsed.text = parsed.text.replace("#","%23")
 
     console.log("calling with search text: '" + parsed.text + "'")
+    total_searches++;
     gis(parsed.text, respondWithImages);
   }
 
@@ -89,7 +97,21 @@ function respondToRequestWithBody(req, body, res, headers) {
       console.log("resopnded with results: '" + images + "'")
       if (parsed.index > 0) {
         //normalize from 1 based cmd
-        writeImageToResponse(null, images[parsed.index-1])
+        if (images[parsed.index-1]) {
+          repeat_count = 0;
+          writeImageToResponse(null, images[parsed.index-1])
+        } else if (repeat_count < 5){
+          // we have the shrug!
+          repeat_count++;
+          total_failures++;
+          console.log("we have " + repeat_count + " fail(s)");
+          gis(parsed.text, respondWithImages);
+        } else {
+          // too many shrugs
+          repeat_count = 0;
+          console.log("too many failures");
+          writeImageToResponse(null, null)
+        }
       }
       else
       {
@@ -109,6 +131,13 @@ function respondToRequestWithBody(req, body, res, headers) {
     }
   }
 
+  function genericResponse(error, text) {
+    console.log("returning generic text: '" + text + "'")
+    res.writeHead(200, headers);
+    response.text = text // replace all %25 to %
+    res.end(JSON.stringify(response));
+
+  }
 
   function writeImageToResponse(error, imageURL) {
 

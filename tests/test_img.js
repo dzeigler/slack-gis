@@ -101,7 +101,7 @@ post_data[6] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : 'GiS1 cheese', 
+      'text' : 'gisstats', 
       'trigger_word': 'gis1',
       'channel_name': 'testing',
       'token': '6kV2U9rAZsO7tVaqYumACrTB',

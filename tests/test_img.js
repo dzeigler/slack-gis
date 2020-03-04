@@ -8,7 +8,7 @@ var options = {
 	path: '/',
 	method: 'POST',
   path_str: 'https://hooks.slack.com/services/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',
-  host_str: 'poundc.slack.com',  
+  host_str: 'poundc.slack.com',
 }
 
 date = new Date()
@@ -19,7 +19,7 @@ post_data[0] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : 'gis 쇼리', 
+      'text' : 'gis 쇼리',
       'trigger_word': 'gis',
       'channel_name': 'testing',
       'token': '6kV2U9rAZsO7tVaqYumACrTB',
@@ -33,7 +33,7 @@ post_data[1] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : 'gis1 star wars', 
+      'text' : 'gis1 star wars',
       'trigger_word': 'gis1',
       'channel_name': 'testing',
       'token': '6kV2U9rAZsO7tVaqYumACrTB',
@@ -47,7 +47,7 @@ post_data[2] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : 'gis1 eowks', 
+      'text' : 'gis1 eowks',
       'trigger_word': 'gis1',
       'channel_name': 'testing',
       'token': '6kV2U9rAZsO7tVaqYumACrTB',
@@ -61,7 +61,7 @@ post_data[3] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : 'gis1 42k Mercedes', 
+      'text' : 'gis1 42k Mercedes',
       'trigger_word': 'gis1',
       'channel_name': 'testing',
       'token': '6kV2U9rAZsO7tVaqYumACrTB',
@@ -75,7 +75,7 @@ post_data[4] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : 'gis1 #imwithher', 
+      'text' : 'gis1 #imwithher',
       'trigger_word': 'gis1',
       'channel_name': 'testing',
       'token': '6kV2U9rAZsO7tVaqYumACrTB',
@@ -88,7 +88,7 @@ post_data[5] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : 'gis1 æ', 
+      'text' : 'gis1 æ',
       'trigger_word': 'gis1',
       'channel_name': 'testing',
       'token': '6kV2U9rAZsO7tVaqYumACrTB',
@@ -101,7 +101,7 @@ post_data[6] = querystring.stringify({
       'user_id' : 'U02A2NEUX',
       'user_name' : 'boltar',
       'timestamp': '1402359176.000029', //date.getTime(),
-      'text' : 'gisstats', 
+      'text' : 'gisstats',
       'trigger_word': 'gis1',
       'channel_name': 'testing',
       'token': '6kV2U9rAZsO7tVaqYumACrTB',
@@ -125,5 +125,5 @@ req.on('error', function (e) {
 
 //req.write(post_data[1])
 
-req.write(post_data[6])
+req.write(post_data[5])
 req.end()

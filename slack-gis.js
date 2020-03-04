@@ -148,7 +148,7 @@ function respondToRequestWithBody(req, body, res, headers) {
     }
     console.log("returning text: '" + response.text + "'")
     res.writeHead(200, headers);
-    response.text = response.text.replace(/%25/g, "%") // replace all %25 to %
+    response.text = response.text.url.replace(/%25/g, "%") // replace all %25 to %
     res.end(JSON.stringify(response));
   }
 }

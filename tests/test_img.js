@@ -110,6 +110,33 @@ post_data[6] = querystring.stringify({
       'service_id' : '9547183671',
       'channel_id' : 'C02A97T6Z'
   });
+  post_data[7] = querystring.stringify({ // gisg1
+    'user_id' : 'U02A2NEUX',
+    'user_name' : 'boltar',
+    'timestamp': '1402359176.000029', //date.getTime(),
+    'text' : 'gisg1 gbbo',
+    'trigger_word': 'gisg1',
+    'channel_name': 'testing',
+    'token': '6kV2U9rAZsO7tVaqYumACrTB',
+    'team_id': 'T02A3F3HL',
+    'team_domain': 'poundc',
+    'service_id' : '9547183671',
+    'channel_id' : 'C02A97T6Z'
+});
+post_data[8] = querystring.stringify({ // gisg <no index>
+  'user_id' : 'U02A2NEUX',
+  'user_name' : 'boltar',
+  'timestamp': '1402359176.000029', //date.getTime(),
+  'text' : 'gisg gbbo',
+  'trigger_word': 'gisg',
+  'channel_name': 'testing',
+  'token': '6kV2U9rAZsO7tVaqYumACrTB',
+  'team_id': 'T02A3F3HL',
+  'team_domain': 'poundc',
+  'service_id' : '9547183671',
+  'channel_id' : 'C02A97T6Z'
+});
+
 var req = http.request(options, function(res) {
 	//res.setEncoding('utf8')
 	res.on('data', function (chunk) {
@@ -123,7 +150,6 @@ req.on('error', function (e) {
 
 //req.write(post_data[0])
 
-//req.write(post_data[1])
-
-req.write(post_data[5])
+req.write(post_data[7])
 req.end()
+

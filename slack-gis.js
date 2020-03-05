@@ -123,7 +123,7 @@ function respondToRequestWithBody(req, body, res, headers) {
         }
 
         var pickOpts = {
-          urls: imageURLs,
+          urls: imageURLs.map(a => a.url),
           responseChecker: isImageMIMEType
         };
         pickFirstGoodURL(pickOpts, writeImageToResponse);
@@ -148,7 +148,15 @@ function respondToRequestWithBody(req, body, res, headers) {
     }
     console.log("returning text: '" + response.text + "'")
     res.writeHead(200, headers);
-    response.text = response.text.url.replace(/%25/g, "%") // replace all %25 to %
+    // if we're using the pickFirstGoodURL, we've passed in an array of pure urls, for others, we're using an array of objects which has a 
+    // .url property. this is messy -- should think about disabling non-indexed calls for maintainability
+
+    if ("undefined" === typeof(response.text.url)) {
+      response.text = response.text.replace(/%25/g, "%") // replace all %25 to %
+    } else {
+      response.text = response.text.url.replace(/%25/g, "%") // replace all %25 to %
+    }
+    
     res.end(JSON.stringify(response));
   }
 }
@@ -193,16 +201,16 @@ function hehehe(str)
 
 function getSearchTextAndIndex(messageText) {
 
-  var gisTrigger = /^gis[\d+]*/i
+  var gisTrigger = /^gis[g]?[\d+]*/i
   var imageIndex = 0;
   match = gisTrigger.exec(messageText);
   // match is guaranteed to succeed, because trigger is 'gis'
   matchIndex = /[\d]+/.exec(match) //do we have an index?
-
+  isGisG = /^gisg/i.exec(match) // do we have a gisg?
   if (matchIndex != null)
   {
     // we have a valid index
-    imageIndex = match[0].replace(/^gis/i, '')
+    imageIndex = match[0].replace(/^gis[g]?/i, '')
       messageText = messageText.replace(gisTrigger, '')
       messageText = messageText.substr(1)
       var test = 0;
@@ -211,16 +219,21 @@ function getSearchTextAndIndex(messageText) {
         messageText = hehehe(messageText)
       }
     console.log("valid index: " + imageIndex)
-  }
+  } 
   else
   {
     // no index!
     console.log("no index")
-      messageText = messageText.replace(/^gis/i, '')
-      if (messageText.charAt(0) === ' ')
-      {
-        messageText = messageText.substr(1);
-      }
+      messageText = messageText.replace(/^gis[g]?/i, '')
+  }
+
+  if (messageText.charAt(0) === ' ')
+  {
+    messageText = messageText.substr(1);
+  }
+
+  if (isGisG) {
+    messageText += " girls"
   }
 
   return {text: messageText, index: imageIndex};

@@ -146,15 +146,20 @@ function respondToRequestWithBody(req, body, res, headers) {
     } else {
       response.text = '¯\\_(ツ)_/¯';
     }
-    console.log("returning text: '" + response.text + "'")
+    console.log("returning text: '" + response.text.url + "'")
+    
     res.writeHead(200, headers);
     // if we're using the pickFirstGoodURL, we've passed in an array of pure urls, for others, we're using an array of objects which has a 
     // .url property. this is messy -- should think about disabling non-indexed calls for maintainability
 
     if ("undefined" === typeof(response.text.url)) {
       response.text = response.text.replace(/%25/g, "%") // replace all %25 to %
+      response.text = response.text.replace(/\\u003d/g, "=")  // replace all \u003d to =
+      response.text = response.text.replace(/\\u0026/g, "&")  // replace all \u0026 to &
     } else {
-      response.text = response.text.url.replace(/%25/g, "%") // replace all %25 to %
+      response.text.url = response.text.url.replace(/%25/g, "%") // replace all %25 to %
+      response.text.url = response.text.url.replace(/\\u003d/g, "=")  // replace all \u003d to =
+      response.text.url = response.text.url.replace(/\\u0026/g, "&")  // replace all \u0026 to &
     }
     
     res.end(JSON.stringify(response));

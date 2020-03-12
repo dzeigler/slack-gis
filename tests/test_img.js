@@ -137,6 +137,22 @@ post_data[8] = querystring.stringify({ // gisg <no index>
   'channel_id' : 'C02A97T6Z'
 });
 
+post_data[9] = querystring.stringify({ // gisg <no index>
+  'user_id' : 'U02A2NEUX',
+  'user_name' : 'boltar',
+  'timestamp': '1402359176.000029', //date.getTime(),
+  'text' : 'gis1 gis1 ellen jue amazon',
+  'trigger_word': 'gisg',
+  'channel_name': 'testing',
+  'token': '6kV2U9rAZsO7tVaqYumACrTB',
+  'team_id': 'T02A3F3HL',
+  'team_domain': 'poundc',
+  'service_id' : '9547183671',
+  'channel_id' : 'C02A97T6Z'
+});
+
+
+
 var req = http.request(options, function(res) {
 	//res.setEncoding('utf8')
 	res.on('data', function (chunk) {
@@ -150,6 +166,6 @@ req.on('error', function (e) {
 
 //req.write(post_data[0])
 
-req.write(post_data[7])
+req.write(post_data[9])
 req.end()
 

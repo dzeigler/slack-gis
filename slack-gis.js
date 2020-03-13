@@ -157,9 +157,9 @@ function respondToRequestWithBody(req, body, res, headers) {
       response.text = response.text.replace(/\\u003d/g, "=")  // replace all \u003d to =
       response.text = response.text.replace(/\\u0026/g, "&")  // replace all \u0026 to &
     } else {
-      response.text.url = response.text.url.replace(/%25/g, "%") // replace all %25 to %
-      response.text.url = response.text.url.replace(/\\u003d/g, "=")  // replace all \u003d to =
-      response.text.url = response.text.url.replace(/\\u0026/g, "&")  // replace all \u0026 to &
+      response.text = response.text.url.replace(/%25/g, "%") // replace all %25 to %
+      response.text = response.text.replace(/\\u003d/g, "=")  // replace all \u003d to =
+      response.text = response.text.replace(/\\u0026/g, "&")  // replace all \u0026 to &
     }
     
     res.end(JSON.stringify(response));

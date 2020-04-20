@@ -165,6 +165,20 @@ post_data[10] = querystring.stringify({ // gisg <no index>
   'channel_id' : 'C02A97T6Z'
 });
 
+//gis1 nixon charleston chew
+post_data[11] = querystring.stringify({ // remove memegenerator
+  'user_id' : 'U02A2NEUX',
+  'user_name' : 'boltar',
+  'timestamp': '1402359176.000029', //date.getTime(),
+  'text' : 'gis1 nixon charleston chew',
+  'trigger_word': 'gis1',
+  'channel_name': 'testing',
+  'token': '6kV2U9rAZsO7tVaqYumACrTB',
+  'team_id': 'T02A3F3HL',
+  'team_domain': 'poundc',
+  'service_id' : '9547183671',
+  'channel_id' : 'C02A97T6Z'
+});
 
 
 
@@ -181,6 +195,6 @@ req.on('error', function (e) {
 
 //req.write(post_data[0])
 
-req.write(post_data[10])
+req.write(post_data[11])
 req.end()
 

@@ -96,8 +96,8 @@ function respondToRequestWithBody(req, body, res, headers) {
       var imageURLs;
       console.log("resopnded with results: '" + images + "'")
       
-      // remove fbsbx.com entries
-      var fbsbx = /fbsbx\.com/i
+      // remove fbsbx.com entries (among others)
+      var fbsbx = /(fbsbx\.com)|(memegenerator\.net)/i
       images = images.filter(img => !fbsbx.exec(img.url))
 
       if (parsed.index > 0) {

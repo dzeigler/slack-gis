@@ -180,6 +180,34 @@ post_data[11] = querystring.stringify({ // remove memegenerator
   'channel_id' : 'C02A97T6Z'
 });
 
+//gist --> gis then and now
+post_data[12] = querystring.stringify({ // then and now
+  'user_id' : 'U02A2NEUX',
+  'user_name' : 'boltar',
+  'timestamp': '1402359176.000029', //date.getTime(),
+  'text' : 'gist1 iphone',
+  'trigger_word': 'gist',
+  'channel_name': 'testing',
+  'token': '6kV2U9rAZsO7tVaqYumACrTB',
+  'team_id': 'T02A3F3HL',
+  'team_domain': 'poundc',
+  'service_id' : '9547183671',
+  'channel_id' : 'C02A97T6Z'
+});
+
+post_data[13] = querystring.stringify({ // infographics
+  'user_id' : 'U02A2NEUX',
+  'user_name' : 'boltar',
+  'timestamp': '1402359176.000029', //date.getTime(),
+  'text' : 'gisi1 iphone',
+  'trigger_word': 'gisi',
+  'channel_name': 'testing',
+  'token': '6kV2U9rAZsO7tVaqYumACrTB',
+  'team_id': 'T02A3F3HL',
+  'team_domain': 'poundc',
+  'service_id' : '9547183671',
+  'channel_id' : 'C02A97T6Z'
+});
 
 
 var req = http.request(options, function(res) {
@@ -195,6 +223,5 @@ req.on('error', function (e) {
 
 //req.write(post_data[0])
 
-req.write(post_data[11])
+req.write(post_data[13])
 req.end()
-

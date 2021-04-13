@@ -69,7 +69,7 @@ function respondToRequestWithBody(req, body, res, headers) {
       channel: params.channel_id
     };
 
-    if (params.text == 'gisstats') 
+    if (params.text == 'gisstats')
     {
       genericResponse(null, 'total searches: ' + total_searches + ", total failures: " + total_failures);
       return;
@@ -95,7 +95,7 @@ function respondToRequestWithBody(req, body, res, headers) {
       var goodImages = compact(images);
       var imageURLs;
       console.log("resopnded with results: '" + images + "'")
-      
+
       // remove fbsbx.com entries (among others)
       var fbsbx = /(fbsbx\.com)|(memegenerator\.net)/i
       images = images.filter(img => !fbsbx.exec(img.url))
@@ -152,9 +152,9 @@ function respondToRequestWithBody(req, body, res, headers) {
       response.text = '¯\\_(ツ)_/¯';
     }
     console.log("returning text: '" + response.text.url + "'")
-    
+
     res.writeHead(200, headers);
-    // if we're using the pickFirstGoodURL, we've passed in an array of pure urls, for others, we're using an array of objects which has a 
+    // if we're using the pickFirstGoodURL, we've passed in an array of pure urls, for others, we're using an array of objects which has a
     // .url property. this is messy -- should think about disabling non-indexed calls for maintainability
 
     if ("undefined" === typeof(response.text.url)) {
@@ -166,7 +166,7 @@ function respondToRequestWithBody(req, body, res, headers) {
       response.text = response.text.replace(/\\u003d/g, "=")  // replace all \u003d to =
       response.text = response.text.replace(/\\u0026/g, "&")  // replace all \u0026 to &
     }
-    
+
     res.end(JSON.stringify(response));
   }
 }
@@ -211,16 +211,20 @@ function hehehe(str)
 
 function getSearchTextAndIndex(messageText) {
 
-  var gisTrigger = /^gis[g]?[\d+]*/i
+  var gisTrigger = /^gis[gtia]?[\d+]*/i
   var imageIndex = 0;
   match = gisTrigger.exec(messageText);
   // match is guaranteed to succeed, because trigger is 'gis'
   matchIndex = /[\d]+/.exec(match) //do we have an index?
   isGisG = /^gisg/i.exec(match) // do we have a gisg?
+  isGisT = /^gist/i.exec(match) // do we have a gist?
+  isGisI = /^gisi/i.exec(match) // do we have a gisi?
+  isGisA = /^gisa/i.exec(match) // do we have a gisa?
+  isGisM = /^gism/i.exec(match) // do we have a gisa?
   if (matchIndex != null)
   {
     // we have a valid index
-    imageIndex = match[0].replace(/^gis[g]?/i, '')
+    imageIndex = match[0].replace(/^gis[gtiam]?/i, '')
       messageText = messageText.replace(gisTrigger, '')
       messageText = messageText.substr(1)
       var test = 0;
@@ -229,12 +233,12 @@ function getSearchTextAndIndex(messageText) {
         messageText = hehehe(messageText)
       }
     console.log("valid index: " + imageIndex)
-  } 
+  }
   else
   {
     // no index!
     console.log("no index")
-      messageText = messageText.replace(/^gis[g]?/i, '')
+      messageText = messageText.replace(/^gis[gtiam]?/i, '')
   }
 
   if (messageText.charAt(0) === ' ')
@@ -244,6 +248,14 @@ function getSearchTextAndIndex(messageText) {
 
   if (isGisG) {
     messageText += " girls"
+  } else if (isGisT) {
+    messageText += " then and now"
+  } else if (isGisI) {
+    messageText += " infographics"
+  } else if (isGisA) {
+    messageText += " animated gif"
+  } else if (isGisM) {
+    messageText += " meme"
   }
 
   return {text: messageText, index: imageIndex};

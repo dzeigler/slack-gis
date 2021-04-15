@@ -225,20 +225,21 @@ function getSearchTextAndIndex(messageText) {
   {
     // we have a valid index
     imageIndex = match[0].replace(/^gis[gtiam]?/i, '')
-      messageText = messageText.replace(gisTrigger, '')
-      messageText = messageText.substr(1)
-      var test = 0;
-      if (test)
-      {
-        messageText = hehehe(messageText)
-      }
+    messageText = messageText.replace(gisTrigger, '')
+    messageText = messageText.substr(1)
+    var test = 0;
+    if (test)
+    {
+      messageText = hehehe(messageText)
+    }
     console.log("valid index: " + imageIndex)
   }
   else
   {
-    // no index!
-    console.log("no index")
-      messageText = messageText.replace(/^gis[gtiam]?/i, '')
+    // no index! default to 1
+    console.log("no index, defaulting to index of 1")
+    imageIndex = 1
+    messageText = messageText.replace(/^gis[gtiam]?/i, '')
   }
 
   if (messageText.charAt(0) === ' ')

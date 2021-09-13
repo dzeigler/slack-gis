@@ -211,7 +211,7 @@ function hehehe(str)
 
 function getSearchTextAndIndex(messageText) {
 
-  var gisTrigger = /^gis[gtia]?[\d+]*/i
+  var gisTrigger = /^gis[gtiam]?[\d+]*/i
   var imageIndex = 0;
   match = gisTrigger.exec(messageText);
   // match is guaranteed to succeed, because trigger is 'gis'
